@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark" data-accent="purple" data-anim="high" data-sidebar="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGUNG PERSONAL DASHBOARD — SASUKE UCHIHA EDITION</title>
+  <meta name="description" content="Dashboard pribadi interaktif bertema Sasuke Uchiha milik Agung Kusuma Tri Atmaja dengan fitur mata pelajaran, materi kuliah, jadwal olahraga, dokumen rahasia, galeri foto, dan pengaturan tema dinamis.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23ef4444'/><circle cx='50' cy='50' r='12' fill='%23000'/></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/intro.css">
+</head>
+<body class="theme-dark">
+
+  <!-- Ambient visual lighting layers -->
+  <div class="bg-ambient-layer">
+    <div class="ambient-light-1"></div>
+    <div class="ambient-light-2"></div>
+  </div>
+  <canvas id="ambient-lightning-canvas"></canvas>
+
+  <!-- ========================================================
+       CINEMATIC SASUKE UCHIHA INTRO OVERLAY
+       ======================================================== -->
+  <div id="intro-overlay">
+    <canvas id="intro-canvas"></canvas>
+    <div class="intro-kanji-bg">うちはサスケ</div>
+    <div class="intro-content">
+      <!-- Sasuke Character Showcase in Intro with Chidori Aura -->
+      <div class="sasuke-intro-showcase" id="sasuke-intro-showcase" title="Klik Sasuke untuk Chidori Strike!">
+        <div class="sasuke-intro-avatar-wrapper" id="sasuke-intro-avatar">
+          <img src="/assets/sasuke_intro.jpg" alt="Sasuke Uchiha Chidori" class="sasuke-intro-img">
+          <!-- Animated lightning discharge ring around avatar -->
+          <div class="chidori-lightning-ring"></div>
+          <div class="susanoo-aura-pulse"></div>
+          
+          <!-- Mini Sharingan Badge attached to avatar -->
+          <div class="sharingan-badge-intro">
+            <div class="tomoe-spinner">
+              <div class="tomoe-comma tomoe-1"></div>
+              <div class="tomoe-comma tomoe-2"></div>
+              <div class="tomoe-comma tomoe-3"></div>
+            </div>
+            <div class="sharingan-center-pupil"></div>
+          </div>
+        </div>
+        <div class="sasuke-click-hint">⚡ KLIK SASUKE UNTUK MELEPASKAN CHIDORI ⚡</div>
+      </div>
+
+      <div class="intro-tagline">SHINOBI COMMAND CENTER</div>
+      <h1 class="intro-name">AGUNG KUSUMA TRI ATMAJA</h1>
+      <div class="intro-subtitle">AGUNG PERSONAL DASHBOARD — <span>SASUKE UCHIHA EDITION</span></div>
+      
+      <p class="intro-quote">
+        "Mimpiku bukan berada di masa depan. Mimpiku ada di masa lalu, dan di sanalah tujuanku. Kekuatan sejati bangkit saat kita berani menatap kegelapan."
+      </p>
+
+      <div class="intro-actions">
+        <button id="btn-intro-enter" class="btn-intro-enter" type="button">
+          <svg style="width: 22px; height: 22px; fill: currentColor;" viewBox="0 0 24 24">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          MASUK DASHBOARD
+        </button>
+        <button id="btn-intro-skip" class="btn-intro-skip" type="button">
+          LEWATI INTRO
+        </button>
+      </div>
+
+      <label class="intro-checkbox-label">
+        <input type="checkbox" id="chk-intro-never">
+        <span>Jangan tampilkan intro ini lagi (Buka langsung dashboard)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       LOGIN / AUTHENTICATION OVERLAY
+       ======================================================== -->
+  <div id="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-logo-eye">
+        <div class="tomoe-spinner" style="animation-duration: 6s;">
+          <div class="tomoe-comma tomoe-1" style="width: 10px; height: 10px; top: 10px; left: 31px;"></div>
+          <div class="tomoe-comma tomoe-2" style="width: 10px; height: 10px; bottom: 14px; right: 12px;"></div>
+          <div class="tomoe-comma tomoe-3" style="width: 10px; height: 10px; bottom: 14px; left: 12px;"></div>
+        </div>
+        <div style="width: 12px; height: 12px; background: #000; border-radius: 50%; position: relative; z-index: 5;"></div>
+      </div>
+
+      <h2 class="auth-title">SASUKE ACCESS PORTAL</h2>
+      <p class="auth-subtitle">Masuk untuk mengakses Dashboard Agung Kusuma</p>
+
+      <form id="login-form">
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="login-username">Username Shinobi</label>
+          <input type="text" id="login-username" class="form-control" placeholder="Masukkan username" required autocomplete="username">
+        </div>
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="login-password">Password Rahasia</label>
+          <input type="password" id="login-password" class="form-control" placeholder="Masukkan password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; margin-top: 0.8rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          AKTIFKAN CHIDORI & MASUK
+        </button>
+      </form>
+
+      <div class="auth-credentials-hint">
+        ⚡ <strong>Info Login Awal:</strong> Username: <code>agung</code> | Password: <code>kusuma</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MAIN APP LAYOUT
+       ======================================================== -->
+  <div id="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">
+          <!-- Chidori Lightning Symbol -->
+          <svg viewBox="0 0 24 24">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div class="sidebar-brand-info">
+          <div class="sidebar-brand-title">AGUNG DASHBOARD</div>
+          <div class="sidebar-brand-subtitle">SASUKE UCHIHA ED.</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Menu Utama</div>
+
+        <a class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a class="nav-item" data-view="profile" id="nav-profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profil Saya</span>
+        </a>
+
+        <a class="nav-item" data-view="subjects" id="nav-subjects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10M6 14h6"/></svg>
+          <span>Mata Pelajaran</span>
+        </a>
+
+        <a class="nav-item" data-view="sports" id="nav-sports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>Jadwal Olahraga</span>
+        </a>
+
+        <div class="nav-section-title" style="margin-top: 0.6rem;">Penyimpanan Pribadi</div>
+
+        <a class="nav-item" data-view="documents" id="nav-documents">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Dokumen Pribadi</span>
+        </a>
+
+        <a class="nav-item" data-view="gallery" id="nav-gallery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Galeri Foto</span>
+        </a>
+
+        <div class="nav-section-title" style="margin-top: 0.6rem;">Konfigurasi</div>
+
+        <a class="nav-item" data-view="settings" id="nav-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Pengaturan</span>
+        </a>
+
+        <a class="nav-item logout-btn" id="btn-logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+      <!-- Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="btn-sidebar-toggle" class="btn-sidebar-toggle" type="button" title="Buka Sidebar">
+            <svg style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div class="topbar-page-meta">
+            <div id="topbar-title" class="topbar-page-title">Dashboard Utama</div>
+            <div class="topbar-breadcrumbs">Agung Personal Dashboard • Sasuke Uchiha Edition</div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Real-time Clock -->
+          <div class="clock-widget">
+            <div class="clock-pulse"></div>
+            <span id="live-clock-time">00:00:00</span>
+            <span style="opacity: 0.4;">|</span>
+            <span id="live-clock-date">Senin, 19 Okt</span>
+          </div>
+
+          <!-- User Pill -->
+          <div class="topbar-user-pill" onclick="App.navigate('profile')">
+            <img class="topbar-user-avatar user-avatar-img" src="" alt="Avatar">
+            <span class="topbar-user-name user-full-name">Agung Kusuma</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- App Views Container -->
+      <div class="app-content">
+
+        <!-- ====================================================
+             VIEW 1: DASHBOARD UTAMA
+             ==================================================== -->
+        <section id="view-dashboard" class="view-section active">
+          <!-- Hero Banner -->
+          <div class="hero-banner">
+            <div class="hero-text-col">
+              <div class="hero-tag">
+                <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                CHIDORI STREAM READY • SHINOBI COMMAND
+              </div>
+              <h2 class="hero-title">Hai, <span class="user-full-name">Agung Kusuma Tri Atmaja</span>!</h2>
+              <p class="hero-desc">
+                Selamat datang di markas kendali pribadimu. Kelola perkuliahan, jadwal olahraga kebugaran, dokumen terlindungi enkripsi server, dan galeri kenangan dengan kecepatan petir ungu Sasuke.
+              </p>
+              <div class="hero-actions">
+                <button id="dash-quick-add-subject" class="btn btn-primary" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Tambah Pelajaran
+                </button>
+                <button id="dash-quick-add-sport" class="btn btn-secondary" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  Jadwalkan Olahraga
+                </button>
+                <button id="dash-quick-add-doc" class="btn btn-secondary" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  Upload Dokumen
+                </button>
+                <button id="dash-quick-add-photo" class="btn btn-secondary" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  Tambah Foto
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-sasuke-graphic" id="dash-hero-sasuke" title="Klik Sasuke untuk Chidori Strike!">
+              <div class="hero-sasuke-frame">
+                <img src="/assets/sasuke_hero.jpg" alt="Sasuke Uchiha" class="hero-sasuke-img">
+                <div class="hero-blade-lightning"></div>
+              </div>
+              <div class="hero-sasuke-badge">
+                <div class="hero-badge-eye"></div>
+                <span>UCHIHA SASUKE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat Cards Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-info">
+                <span class="stat-label">Mata Pelajaran</span>
+                <span id="stat-total-subjects" class="stat-number">0</span>
+                <span class="stat-sub">Terdaftar semester ini</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span class="stat-label">Materi Kuliah</span>
+                <span id="stat-total-materials" class="stat-number">0</span>
+                <span class="stat-sub">File materi terupload</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span class="stat-label">Jadwal Olahraga</span>
+                <span id="stat-total-sports" class="stat-number">0</span>
+                <span class="stat-sub">Aktivitas aktif</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span class="stat-label">Dokumen Pribadi</span>
+                <span id="stat-total-docs" class="stat-number">0</span>
+                <span class="stat-sub">Tersimpan di SQLite</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span class="stat-label">Galeri Foto</span>
+                <span id="stat-total-photos" class="stat-number">0</span>
+                <span class="stat-sub">Koleksi foto visual</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Row 2 -->
+          <div class="dashboard-grid-2">
+            <!-- Left Col: Upcoming Sports & Recent Subjects -->
+            <div>
+              <div class="dashboard-card" style="margin-bottom: 1.6rem;">
+                <div class="dashboard-card-header">
+                  <div class="dashboard-card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    Jadwal Olahraga Terdekat
+                  </div>
+                  <button class="btn btn-secondary btn-sm" onclick="App.navigate('sports')">Lihat Semua</button>
+                </div>
+                <div id="dash-upcoming-sports">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                  <div class="dashboard-card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+                    Mata Pelajaran Aktif
+                  </div>
+                  <button class="btn btn-secondary btn-sm" onclick="App.navigate('subjects')">Buka Pelajaran</button>
+                </div>
+                <div id="dash-recent-subjects" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Col: Sasuke Shinobi Widget & Power Status -->
+            <div>
+              <!-- Sasuke Quote Widget -->
+              <div class="quote-card">
+                <div style="font-size: 0.72rem; color: var(--accent-secondary); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.6rem;">
+                  ⚡ FILOSOFI SHINOBI UCHIHA
+                </div>
+                <div id="sasuke-quote-text" class="quote-content">
+                  "Mimpiku bukan berada di masa depan. Mimpiku ada di masa lalu, dan di sanalah tujuanku."
+                </div>
+                <div class="quote-author">
+                  <span id="sasuke-quote-author">Sasuke Uchiha — Uchiha Clan Successor</span>
+                  <button id="btn-cycle-quote" class="btn-cycle-quote" type="button" title="Ganti Kutipan">
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    Ganti
+                  </button>
+                </div>
+              </div>
+
+              <!-- Shinobi Attributes Radar/Meters -->
+              <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                  <div class="dashboard-card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Tingkat Kemampuan Agung
+                  </div>
+                  <span class="user-ninja-rank" style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 700;">S-Rank Specialist</span>
+                </div>
+
+                <div class="shinobi-meter-box">
+                  <div class="meter-row">
+                    <div class="meter-header">
+                      <span>⚡ Chidori Lightning Mastery</span>
+                      <span>96%</span>
+                    </div>
+                    <div class="meter-bar-track">
+                      <div class="meter-bar-fill" style="width: 96%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="meter-row">
+                    <div class="meter-header">
+                      <span>👁️ Sharingan Analytical Perception</span>
+                      <span>92%</span>
+                    </div>
+                    <div class="meter-bar-track">
+                      <div class="meter-bar-fill" style="width: 92%; background: linear-gradient(90deg, #ef4444, #f97316);"></div>
+                    </div>
+                  </div>
+
+                  <div class="meter-row">
+                    <div class="meter-header">
+                      <span>📚 Penguasaan Akademik & Koding</span>
+                      <span>94%</span>
+                    </div>
+                    <div class="meter-bar-track">
+                      <div class="meter-bar-fill" style="width: 94%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="meter-row">
+                    <div class="meter-header">
+                      <span>🏃 Kecepatan & Stamina Fisik</span>
+                      <span>88%</span>
+                    </div>
+                    <div class="meter-bar-track">
+                      <div class="meter-bar-fill" style="width: 88%; background: linear-gradient(90deg, #38bdf8, #818cf8);"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="margin-top: 1.2rem; padding: 0.75rem; border-radius: var(--radius-sm); background: rgba(var(--accent-primary-rgb), 0.08); font-size: 0.78rem; color: var(--text-secondary); border: 1px dashed var(--border-subtle);">
+                  💡 <em>Status ditingkatkan secara otomatis seiring keaktifanmu mengelola tugas dan mencatat sesi olahraga.</em>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================
+             VIEW 2: PROFIL SAYA
+             ==================================================== -->
+        <section id="view-profile" class="view-section">
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.8rem; align-items: start;">
+            <!-- Left Profile Card -->
+            <div class="dashboard-card" style="text-align: center; align-items: center;">
+              <div style="position: relative; margin-bottom: 1.2rem;">
+                <img class="user-avatar-img" src="" alt="Avatar" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-primary); box-shadow: var(--accent-glow);">
+                <label for="profile-avatar-file" style="position: absolute; bottom: 0; right: 0; background: var(--accent-primary); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.6);" title="Ganti Foto Profil">
+                  <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </label>
+                <input type="file" id="profile-avatar-file" accept="image/jpeg,image/png,image/webp" style="display: none;">
+              </div>
+
+              <h3 class="user-full-name" style="font-size: 1.35rem; font-weight: 800; color: #fff;">Agung Kusuma Tri Atmaja</h3>
+              <div class="user-username" style="font-size: 0.85rem; color: var(--accent-secondary); margin-bottom: 0.5rem;">@agung</div>
+              <span class="user-ninja-rank" style="font-size: 0.74rem; font-weight: 700; background: rgba(var(--accent-primary-rgb), 0.2); color: var(--accent-primary); padding: 0.25rem 0.8rem; border-radius: 999px; margin-bottom: 1.2rem;">S-Rank Specialist</span>
+
+              <p id="profile-bio-text" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; border-top: 1px solid var(--border-subtle); padding-top: 1rem; width: 100%;">
+                Sasuke Uchiha Enthusiast & Tech Scholar. Menguasai logika pemrograman dan disiplin fisik layaknya ninja klan Uchiha.
+              </p>
+            </div>
+
+            <!-- Right Profile Forms -->
+            <div>
+              <!-- Edit Profile Information -->
+              <div class="dashboard-card" style="margin-bottom: 1.6rem;">
+                <div class="dashboard-card-header">
+                  <div class="dashboard-card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Ubah Data Profil
+                  </div>
+                </div>
+
+                <form id="form-edit-profile">
+                  <div class="form-group">
+                    <label class="form-label" for="profile-edit-name">Nama Lengkap</label>
+                    <input type="text" id="profile-edit-name" class="form-control" value="Agung Kusuma Tri Atmaja" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-edit-rank">Gelar / Peringkat Ninja</label>
+                    <input type="text" id="profile-edit-rank" class="form-control" value="S-Rank Specialist / Full-Stack Shinobi">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-edit-bio">Bio & Motto Pribadi</label>
+                    <textarea id="profile-edit-bio" class="form-control" rows="3">Sasuke Uchiha Enthusiast & Tech Scholar.</textarea>
+                  </div>
+                  <div style="text-align: right;">
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan Profil</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Change Password Form -->
+              <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                  <div class="dashboard-card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Ganti Password Keamanan
+                  </div>
+                </div>
+
+                <form id="form-change-password">
+                  <div class="form-group">
+                    <label class="form-label" for="pwd-current">Password Saat Ini</label>
+                    <input type="password" id="pwd-current" class="form-control" placeholder="Password lama kamu" required>
+                  </div>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label class="form-label" for="pwd-new">Password Baru</label>
+                      <input type="password" id="pwd-new" class="form-control" placeholder="Minimal 5 karakter" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="pwd-confirm">Konfirmasi Password Baru</label>
+                      <input type="password" id="pwd-confirm" class="form-control" placeholder="Ulangi password baru" required>
+                    </div>
+                  </div>
+                  <div style="text-align: right; margin-top: 0.5rem;">
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                  </div>
+                </form>
+
+                <!-- Crucial Guide for Deploying -->
+                <div style="margin-top: 1.4rem; padding: 1rem; border-radius: var(--radius-md); background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25);">
+                  <div style="font-size: 0.84rem; font-weight: 800; color: #f87171; margin-bottom: 0.3rem;">
+                    🛡️ PANDUAN PENTING SEBELUM WEBSITE DIPUBLIKASIKAN (DEPLOY):
+                  </div>
+                  <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
+                    Password awal kamu adalah <code>kusuma</code>. Sebelum kamu mengunggah atau mempublikasikan website ini ke internet (Vercel, Render, VPS, dll.), pastikan kamu <strong>sudah mengganti password di form atas</strong> ke kata sandi yang kuat dan unik. Password di-hash menggunakan <code>bcryptjs</code> 10-salt rounds di database SQLite, sehingga aman dari pencurian data.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================
+             VIEW 3: MATA PELAJARAN & MATERI
+             ==================================================== -->
+        <section id="view-subjects" class="view-section">
+          <!-- Toolbar -->
+          <div class="section-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="subjects-search" placeholder="Cari mata pelajaran, kode, atau pengajar...">
+            </div>
+            <button id="btn-add-subject" class="btn btn-primary" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambah Mata Pelajaran
+            </button>
+          </div>
+
+          <!-- Cards Grid -->
+          <div id="subjects-grid" class="cards-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ====================================================
+             VIEW 4: JADWAL OLAHRAGA
+             ==================================================== -->
+        <section id="view-sports" class="view-section">
+          <!-- Toolbar -->
+          <div class="section-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="sports-search" placeholder="Cari aktivitas, lokasi, atau catatan olahraga...">
+            </div>
+
+            <!-- Status Filter Pills -->
+            <div class="filter-pills-row">
+              <div class="pill-filter sports-filter-pill active" data-status="Semua">Semua</div>
+              <div class="pill-filter sports-filter-pill" data-status="Terjadwal">Terjadwal</div>
+              <div class="pill-filter sports-filter-pill" data-status="Selesai">Selesai</div>
+              <div class="pill-filter sports-filter-pill" data-status="Ditunda">Ditunda</div>
+              <div class="pill-filter sports-filter-pill" data-status="Dibatalkan">Dibatalkan</div>
+            </div>
+
+            <!-- View Toggler (List vs Calendar) -->
+            <div class="sports-view-toggle">
+              <button id="btn-toggle-sport-list" class="btn-view-toggle active" type="button">
+                <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                Daftar
+              </button>
+              <button id="btn-toggle-sport-cal" class="btn-view-toggle" type="button">
+                <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Kalender
+              </button>
+            </div>
+
+            <button id="btn-add-sport" class="btn btn-primary" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambah Jadwal
+            </button>
+          </div>
+
+          <!-- List View Container -->
+          <div id="sports-list-container">
+            <div id="sports-list-body">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Calendar View Container -->
+          <div id="sports-calendar-container" style="display: none;">
+            <div class="calendar-container">
+              <div class="calendar-header">
+                <h3 id="cal-month-title" class="calendar-month-title">Oktober 2026</h3>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button id="btn-cal-prev-month" class="btn btn-secondary btn-sm" type="button">◀ Bulan Lalu</button>
+                  <button id="btn-cal-next-month" class="btn btn-secondary btn-sm" type="button">Bulan Depan ▶</button>
+                </div>
+              </div>
+
+              <!-- Day Names Header -->
+              <div class="calendar-grid" style="margin-bottom: 0.6rem;">
+                <div class="calendar-day-label">Min</div>
+                <div class="calendar-day-label">Sen</div>
+                <div class="calendar-day-label">Sel</div>
+                <div class="calendar-day-label">Rab</div>
+                <div class="calendar-day-label">Kam</div>
+                <div class="calendar-day-label">Jum</div>
+                <div class="calendar-day-label">Sab</div>
+              </div>
+
+              <!-- Month Days Cells -->
+              <div id="cal-days-grid" class="calendar-grid">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================
+             VIEW 5: DOKUMEN PRIBADI
+             ==================================================== -->
+        <section id="view-documents" class="view-section">
+          <!-- Toolbar -->
+          <div class="section-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="documents-search" placeholder="Cari judul, kategori, atau nama file dokumen...">
+            </div>
+
+            <!-- Categories -->
+            <div class="filter-pills-row">
+              <div class="pill-filter doc-category-pill active" data-category="Semua">Semua</div>
+              <div class="pill-filter doc-category-pill" data-category="Akademik">Akademik</div>
+              <div class="pill-filter doc-category-pill" data-category="Sertifikat">Sertifikat</div>
+              <div class="pill-filter doc-category-pill" data-category="Identitas">Identitas</div>
+              <div class="pill-filter doc-category-pill" data-category="Dokumen Resmi">Dokumen Resmi</div>
+              <div class="pill-filter doc-category-pill" data-category="Pribadi">Pribadi</div>
+            </div>
+
+            <button id="btn-add-doc" class="btn btn-primary" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Dokumen
+            </button>
+          </div>
+
+          <div id="documents-grid" class="cards-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ====================================================
+             VIEW 6: GALERI FOTO
+             ==================================================== -->
+        <section id="view-gallery" class="view-section">
+          <!-- Toolbar -->
+          <div class="section-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="gallery-search" placeholder="Cari foto berdasarkan judul atau deskripsi...">
+            </div>
+
+            <!-- Categories -->
+            <div class="filter-pills-row">
+              <div class="pill-filter photo-category-pill active" data-category="Semua">Semua</div>
+              <div class="pill-filter photo-category-pill" data-category="Pribadi">Pribadi</div>
+              <div class="pill-filter photo-category-pill" data-category="Olahraga">Olahraga</div>
+              <div class="pill-filter photo-category-pill" data-category="Kegiatan">Kegiatan</div>
+              <div class="pill-filter photo-category-pill" data-category="Anime">Anime / Sasuke</div>
+              <div class="pill-filter photo-category-pill" data-category="Kenangan">Kenangan</div>
+            </div>
+
+            <button id="btn-add-photo" class="btn btn-primary" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Foto Baru
+            </button>
+          </div>
+
+          <div id="gallery-grid" class="gallery-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ====================================================
+             VIEW 7: PENGATURAN SISTEM
+             ==================================================== -->
+        <section id="view-settings" class="view-section">
+          <div style="max-width: 860px; margin: 0 auto;">
+            <!-- Theme & Accents -->
+            <div class="settings-section-card">
+              <div class="settings-section-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 22px; height: 22px; color: var(--accent-primary);"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                Tema Visual & Palet Warna Sasuke
+              </div>
+              <div class="settings-section-subtitle">Kustomisasi atmosfer dashboard sesuai selera dan kenyamanan mata kamu.</div>
+
+              <div class="settings-group">
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Mode Tema (Dark / Light)</span>
+                    <span class="setting-desc">Pilih antara latar obsidian gelap khas ninja atau putih bersih.</span>
+                  </div>
+                  <select id="setting-theme" class="form-control" style="width: 170px;">
+                    <option value="dark">Mode Gelap (Sasuke)</option>
+                    <option value="light">Mode Terang (Clean)</option>
+                  </select>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Warna Aksen Shinobi</span>
+                    <span class="setting-desc">Ungu Elektrik, Biru Chidori, Merah Sharingan, Hijau Susanoo.</span>
+                  </div>
+                  <div class="color-swatches">
+                    <button class="swatch-btn active" data-accent="purple" style="background: #a855f7;" title="Ungu Elektrik"></button>
+                    <button class="swatch-btn" data-accent="blue" style="background: #38bdf8;" title="Biru Chidori"></button>
+                    <button class="swatch-btn" data-accent="red" style="background: #ef4444;" title="Merah Sharingan"></button>
+                    <button class="swatch-btn" data-accent="green" style="background: #10b981;" title="Hijau Susanoo"></button>
+                    <input type="color" id="setting-custom-accent" value="#9d4edd" style="width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer; padding: 0; background: transparent;" title="Warna Kustom">
+                  </div>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Intensitas Animasi Visual</span>
+                    <span class="setting-desc">Mengatur kecepatan transisi dan pergerakan partikel layar.</span>
+                  </div>
+                  <select id="setting-anim-intensity" class="form-control" style="width: 170px;">
+                    <option value="high">Maksimal (Full FX)</option>
+                    <option value="medium">Sedang (Balanced)</option>
+                    <option value="low">Rendah (Hemat Daya)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shinobi Special Effects Toggles -->
+            <div class="settings-section-card">
+              <div class="settings-section-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 22px; height: 22px; color: var(--accent-primary);"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                Efek Khusus & Audio
+              </div>
+              <div class="settings-section-subtitle">Aktifkan atau nonaktifkan efek partikel petir, mata Sharingan, dan sound effect.</div>
+
+              <div class="settings-group">
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Efek Sambaran Petir Latar (Ambient Lightning)</span>
+                    <span class="setting-desc">Kilatan petir ungu lembut di kanvas latar belakang dashboard.</span>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="setting-toggle-lightning" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Animasi Putaran Sharingan</span>
+                    <span class="setting-desc">Mata Sharingan berputar di banner dan modal visual.</span>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="setting-toggle-sharingan" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Tampilkan Intro Sinematik Saat Buka</span>
+                    <span class="setting-desc">Intro pembuka layar sinematik Sasuke Uchiha sebelum masuk dashboard.</span>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="setting-toggle-intro" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Efek Suara Sintetis (Web Audio API)</span>
+                    <span class="setting-desc">Suara desingan Chidori dan klik interaktif tanpa file berat.</span>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="setting-toggle-sound" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Layout Preferences -->
+            <div class="settings-section-card">
+              <div class="settings-section-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 22px; height: 22px; color: var(--accent-primary);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                Tata Letak Sidebar
+              </div>
+              <div class="settings-section-subtitle">Sesuaikan lebar menu navigasi samping dengan layar kerjamu.</div>
+
+              <div class="settings-group">
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <span class="setting-label">Ukuran Lebar Sidebar</span>
+                    <span class="setting-desc">Bisa diset Ringkas (ikon saja), Standar, atau Lebar.</span>
+                  </div>
+                  <select id="setting-sidebar-size" class="form-control" style="width: 170px;">
+                    <option value="default">Standar (270px)</option>
+                    <option value="compact">Ringkas (Ikon 80px)</option>
+                    <option value="expanded">Lebar (310px)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Save / Reset Action Buttons -->
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+              <button id="btn-reset-settings" class="btn btn-secondary" type="button">
+                Reset ke Default Sasuke
+              </button>
+              <button id="btn-save-settings" class="btn btn-primary" type="button">
+                Simpan Semua Pengaturan
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+  </div>
+
+  <!-- Floating Interactive Sasuke Shinobi Companion -->
+  <div id="shinobi-assistant" class="shinobi-assistant">
+    <div class="shinobi-bubble" id="shinobi-speech-bubble">
+      <span id="shinobi-speech-text">⚡ Chidori siap! Tekad ninja klan Uchiha selalu menyertaimu, Agung.</span>
+      <button class="shinobi-bubble-close" type="button" id="btn-close-shinobi-bubble">✕</button>
+    </div>
+    <div class="shinobi-avatar-btn" id="btn-shinobi-companion" title="Klik Sasuke untuk memicu Chidori Strike!">
+      <img src="/assets/sasuke_intro.jpg" alt="Sasuke Companion">
+      <div class="shinobi-spark-ring"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODALS SYSTEM
+       ======================================================== -->
+
+  <!-- Modal 1: Mata Pelajaran (Add/Edit) -->
+  <div id="modal-subject" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div id="modal-subject-title" class="modal-title">Tambah Mata Pelajaran</div>
+        <button class="btn-modal-close" type="button">✕</button>
+      </div>
+      <form id="form-subject">
+        <div class="modal-body">
+          <input type="hidden" id="subject-id">
+          <div class="form-group">
+            <label class="form-label" for="subject-name">Nama Mata Pelajaran *</label>
+            <input type="text" id="subject-name" class="form-control" placeholder="Contoh: Pemrograman Web Lanjut" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="subject-code">Kode Mata Pelajaran</label>
+              <input type="text" id="subject-code" class="form-control" placeholder="Contoh: IF-202">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subject-teacher">Dosen / Pengajar</label>
+              <input type="text" id="subject-teacher" class="form-control" placeholder="Nama dosen / guru">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="subject-day">Hari Kuliah</label>
+              <select id="subject-day" class="form-control">
+                <option value="Senin">Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+                <option value="Kamis">Kamis</option>
+                <option value="Jumat">Jumat</option>
+                <option value="Sabtu">Sabtu</option>
+                <option value="Minggu">Minggu</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subject-time">Waktu / Jam</label>
+              <input type="text" id="subject-time" class="form-control" placeholder="Contoh: 08:00 - 10:30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subject-room">Ruangan atau Tautan Daring (Zoom/Meet)</label>
+            <input type="text" id="subject-room" class="form-control" placeholder="Contoh: Ruang Lab 03 / https://meet.google.com/...">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subject-desc">Deskripsi & Rincian Mata Pelajaran</label>
+            <textarea id="subject-desc" class="form-control" rows="3" placeholder="Silabus, target kompetensi, atau catatan penting..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-modal-close">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Mata Pelajaran</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Kelola Materi Pelajaran -->
+  <div id="modal-materials" class="modal-backdrop">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          📂 Kelola Materi: <span id="materials-subject-name" style="color: var(--accent-secondary); margin-left: 0.3rem;"></span>
+        </div>
+        <button class="btn-modal-close" type="button">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="materials-subject-id">
+
+        <!-- Upload Form -->
+        <div style="background: rgba(var(--accent-primary-rgb), 0.08); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.2rem; margin-bottom: 1.4rem;">
+          <div style="font-size: 0.92rem; font-weight: 800; color: #fff; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg style="width: 18px; height: 18px; color: var(--accent-primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Unggah File Materi Baru
+          </div>
+          <form id="form-upload-material">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="material-title">Judul Materi *</label>
+                <input type="text" id="material-title" class="form-control" placeholder="Contoh: Modul 01 - Pengantar Algoritma" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="material-category">Kategori Materi</label>
+                <select id="material-category" class="form-control">
+                  <option value="Materi">Materi Perkuliahan</option>
+                  <option value="Tugas">Tugas & Praktikum</option>
+                  <option value="Catatan">Catatan / Ringkasan</option>
+                  <option value="Ujian">Kisi-kisi & Ujian</option>
+                  <option value="Referensi">Buku / Referensi</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="material-desc">Deskripsi Singkat</label>
+              <input type="text" id="material-desc" class="form-control" placeholder="Catatan tambahan materi...">
+            </div>
+            <div class="form-row-2" style="align-items: flex-end;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="material-file">Pilih Dokumen (PDF, DOCX, PPTX, XLS, TXT, Gambar)</label>
+                <input type="file" id="material-file" class="form-control" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.jpg,.jpeg,.png,.webp" required>
+              </div>
+              <button type="submit" id="btn-submit-material" class="btn btn-primary" style="height: 42px;">
+                Upload Materi
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Materials List -->
+        <div style="font-size: 0.92rem; font-weight: 800; color: #fff; margin-bottom: 0.8rem;">
+          Daftar File Materi Tersimpan
+        </div>
+        <div id="materials-list-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-modal-close">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Jadwal Olahraga (Add/Edit) -->
+  <div id="modal-sport" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div id="modal-sport-title" class="modal-title">Tambah Jadwal Olahraga</div>
+        <button class="btn-modal-close" type="button">✕</button>
+      </div>
+      <form id="form-sport">
+        <div class="modal-body">
+          <input type="hidden" id="sport-id">
+          <div class="form-group">
+            <label class="form-label" for="sport-name">Nama Aktivitas Olahraga *</label>
+            <input type="text" id="sport-name" class="form-control" placeholder="Contoh: Futsal, Calisthenics, Renang, Gym" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sport-date">Tanggal *</label>
+              <input type="date" id="sport-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sport-day">Hari</label>
+              <input type="text" id="sport-day" class="form-control" placeholder="Senin" readonly>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sport-time-start">Waktu Mulai *</label>
+              <input type="time" id="sport-time-start" class="form-control" value="07:00" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sport-time-end">Waktu Selesai</label>
+              <input type="time" id="sport-time-end" class="form-control" value="08:30">
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="sport-location">Lokasi / Lapangan</label>
+              <input type="text" id="sport-location" class="form-control" placeholder="Contoh: Arena Futsal Konoha">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sport-status">Status Aktivitas</label>
+              <select id="sport-status" class="form-control">
+                <option value="Terjadwal">Terjadwal</option>
+                <option value="Selesai">Selesai</option>
+                <option value="Ditunda">Ditunda</option>
+                <option value="Dibatalkan">Dibatalkan</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sport-notes">Catatan Target / Pemanasan</label>
+            <textarea id="sport-notes" class="form-control" rows="2" placeholder="Target push-up, menu latihan, atau instruksi..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sport-attachment">Lampiran Pendukung (Foto Rute / Dokumen Program)</label>
+            <input type="file" id="sport-attachment" class="form-control" accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx">
+            <div id="sport-existing-attachment" style="font-size: 0.78rem; color: var(--accent-secondary); margin-top: 0.4rem; display: none;">
+              Lampiran saat ini: <strong id="sport-current-attach-name"></strong>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-modal-close">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Jadwal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Upload Dokumen Pribadi -->
+  <div id="modal-document" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Upload Dokumen Pribadi</div>
+        <button class="btn-modal-close" type="button">✕</button>
+      </div>
+      <form id="form-upload-doc">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="doc-title">Judul Dokumen *</label>
+            <input type="text" id="doc-title" class="form-control" placeholder="Contoh: Sertifikat Juara Coding / Transkrip Nilai" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="doc-category">Kategori Dokumen *</label>
+            <select id="doc-category" class="form-control">
+              <option value="Akademik">Akademik & Perkuliahan</option>
+              <option value="Sertifikat">Sertifikat & Lisensi</option>
+              <option value="Identitas">Identitas & Dokumen Pribadi</option>
+              <option value="Dokumen Resmi">Dokumen Resmi & Kontrak</option>
+              <option value="Pribadi">Catatan Rahasia Shinobi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="doc-desc">Deskripsi Dokumen</label>
+            <textarea id="doc-desc" class="form-control" rows="2" placeholder="Keterangan singkat tentang isi dokumen ini..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="doc-file">Pilih File (PDF, DOCX, XLSX, TXT, Gambar) *</label>
+            <input type="file" id="doc-file" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.webp" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-modal-close">Batal</button>
+          <button type="submit" id="btn-submit-doc" class="btn btn-primary">Upload Dokumen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Upload Foto Galeri -->
+  <div id="modal-photo" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Upload Foto Baru ke Galeri</div>
+        <button class="btn-modal-close" type="button">✕</button>
+      </div>
+      <form id="form-upload-photo">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="photo-title">Judul Foto *</label>
+            <input type="text" id="photo-title" class="form-control" placeholder="Contoh: Pose Shinobi Chidori / Latihan Malam" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="photo-category">Kategori Foto *</label>
+            <select id="photo-category" class="form-control">
+              <option value="Pribadi">Pribadi</option>
+              <option value="Olahraga">Olahraga</option>
+              <option value="Kegiatan">Kegiatan</option>
+              <option value="Anime">Anime / Sasuke</option>
+              <option value="Kenangan">Kenangan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="photo-desc">Deskripsi / Cerita Singkat</label>
+            <textarea id="photo-desc" class="form-control" rows="2" placeholder="Momen di balik foto ini..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="photo-file">Pilih Gambar (JPG, JPEG, PNG, WEBP) *</label>
+            <input type="file" id="photo-file" class="form-control" accept="image/jpeg,image/png,image/webp" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-modal-close">Batal</button>
+          <button type="submit" id="btn-submit-photo" class="btn btn-primary">Upload Foto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: File Preview (Universal PDF, Image, Code/Text) -->
+  <div id="modal-file-preview" class="modal-backdrop">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div id="preview-file-title" class="modal-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+          Preview Berkas
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <a id="preview-download-btn" class="btn btn-primary btn-sm" href="" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh
+          </a>
+          <button class="btn-modal-close" type="button">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 1rem;">
+        <div id="preview-content-box" style="min-height: 250px; display: flex; align-items: center; justify-content: center;">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Lightbox Galeri Foto -->
+  <div id="modal-lightbox" class="modal-backdrop">
+    <div class="modal-card modal-lg" style="background: rgba(8, 7, 14, 0.98);">
+      <div class="modal-header">
+        <div>
+          <span id="lightbox-category" style="font-size: 0.72rem; color: var(--accent-secondary); font-weight: 700; background: rgba(var(--accent-primary-rgb), 0.2); padding: 0.2rem 0.6rem; border-radius: 999px;">Kategori</span>
+          <h3 id="lightbox-title" style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-top: 0.3rem;">Judul Foto</h3>
+        </div>
+        <button class="btn-modal-close" type="button">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 1rem;">
+        <img id="lightbox-img" src="" alt="Foto Lightbox" style="max-width: 100%; max-height: 60vh; border-radius: var(--radius-md); object-fit: contain; box-shadow: 0 0 30px rgba(0,0,0,0.8);">
+        <p id="lightbox-desc" style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 1rem; line-height: 1.6; text-align: left;"></p>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button id="lightbox-delete-btn" class="btn btn-danger btn-sm" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Hapus Foto
+        </button>
+        <div style="display: flex; gap: 0.6rem;">
+          <a id="lightbox-download-btn" class="btn btn-primary btn-sm" href="" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 15px; height: 15px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh Resolusi Penuh
+          </a>
+          <button type="button" class="btn btn-secondary btn-sm btn-modal-close">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/js/sound.js"></script>
+  <script src="/js/intro.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/subjects.js"></script>
+  <script src="/js/sports.js"></script>
+  <script src="/js/documents.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/settings.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
