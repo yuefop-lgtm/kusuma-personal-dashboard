@@ -196,7 +196,7 @@ class SasukeIntro {
     if (dontShowAgain) {
       localStorage.setItem('sasuke_skip_intro', 'true');
       // If user is logged in, sync with backend settings
-      fetch('/api/settings', {
+      apiFetch('/api/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ enable_intro: 0 })

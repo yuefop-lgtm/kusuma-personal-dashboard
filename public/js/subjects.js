@@ -38,7 +38,7 @@ const SubjectsView = {
 
   async load() {
     try {
-      const res = await fetch('/api/subjects');
+      const res = await apiFetch('/api/subjects');
       const data = await res.json();
       if (data.success) {
         this.subjects = data.subjects || [];
@@ -180,7 +180,7 @@ const SubjectsView = {
       const url = id ? `/api/subjects/${id}` : '/api/subjects';
       const method = id ? 'PUT' : 'POST';
 
-      const res = await fetch(url, {
+      const res = await apiFetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -202,7 +202,7 @@ const SubjectsView = {
   async deleteSubject(id) {
     if (!confirm('Hapus mata pelajaran ini beserta semua file materinya? Tindakan ini tidak dapat dibatalkan.')) return;
     try {
-      const res = await fetch(`/api/subjects/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/subjects/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         window.ninjaSound && window.ninjaSound.playClick();
@@ -221,7 +221,7 @@ const SubjectsView = {
   // ------------------------------------------------------
   async openMaterialsModal(subjectId) {
     try {
-      const res = await fetch(`/api/subjects/${subjectId}`);
+      const res = await apiFetch(`/api/subjects/${subjectId}`);
       const data = await res.json();
       if (!data.success) return App.showToast('error', 'Gagal', data.message);
 
@@ -253,8 +253,8 @@ const SubjectsView = {
       .map((mat) => {
         const ext = mat.original_name ? mat.original_name.split('.').pop().toUpperCase() : 'FILE';
         const sizeMb = mat.file_size ? (mat.file_size / (1024 * 1024)).toFixed(2) + ' MB' : '-';
-        const fileUrl = `/api/files/materials/${mat.filename}`;
-        const downloadUrl = `/api/files/materials/${mat.filename}?download=1&name=${encodeURIComponent(mat.original_name)}`;
+        const fileUrl = apiUrl(`/api/files/materials/${mat.filename}`);
+        const downloadUrl = apiUrl(`/api/files/materials/${mat.filename}?download=1&name=${encodeURIComponent(mat.original_name)}`);
 
         return `
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1rem; margin-bottom: 0.6rem; border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); gap: 1rem;">
@@ -320,7 +320,7 @@ const SubjectsView = {
         btn.textContent = 'Mengunggah...';
       }
 
-      const res = await fetch(`/api/subjects/${subjectId}/materials`, {
+      const res = await apiFetch(`/api/subjects/${subjectId}/materials`, {
         method: 'POST',
         body: formData
       });
@@ -350,7 +350,7 @@ const SubjectsView = {
   async deleteMaterial(id) {
     if (!confirm('Hapus file materi ini?')) return;
     try {
-      const res = await fetch(`/api/materials/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/materials/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         window.ninjaSound && window.ninjaSound.playClick();
@@ -384,7 +384,7 @@ const SubjectsView = {
     } else if (ext === 'pdf') {
       container.innerHTML = `<iframe src="${url}" style="width: 100%; height: 70vh; border: none; border-radius: var(--radius-md);"></iframe>`;
     } else if (['txt', 'json', 'md', 'csv', 'js', 'html', 'css'].includes(ext)) {
-      fetch(url)
+      apiFetch(url)
         .then((r) => r.text())
         .then((txt) => {
           container.innerHTML = `<pre style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: var(--radius-md); max-height: 70vh; overflow: auto; color: #a5f3fc; font-family: monospace; font-size: 0.85rem;">${escapeHtml(txt)}</pre>`;

@@ -8,21 +8,62 @@ const { db, run, get, all, initDatabase } = require('./database/db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === 'production';
+const dataDir = process.env.DATA_DIR || (process.env.VERCEL ? '/tmp' : __dirname);
 
 // Ensure upload directories exist
+const uploadBaseDir = path.join(dataDir, 'uploads');
 const uploadDirs = ['materials', 'sports', 'documents', 'photos', 'avatars'];
 uploadDirs.forEach((dir) => {
-  const dirPath = path.join(__dirname, 'uploads', dir);
+  const dirPath = path.join(uploadBaseDir, dir);
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
   }
 });
 
 // Middleware
+const allowedOrigins = new Set([
+  process.env.FRONTEND_URL && process.env.FRONTEND_URL.replace(/\/$/, ''),
+  'http://localhost:3000',
+  'http://127.0.0.1:3000'
+].filter(Boolean));
+
+app.use((req, res, next) => {
+  const origin = req.get('Origin');
+  if (!origin) return next();
+  if (!allowedOrigins.has(origin)) {
+    return res.status(403).json({ success: false, message: 'Origin tidak diizinkan.' });
+  }
+
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  return next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session setup
+if (isProduction) {
+  app.set('trust proxy', 1);
+  if (!process.env.DATA_DIR) {
+    throw new Error('DATA_DIR must point to a persistent volume in production.');
+  }
+  if (!process.env.FRONTEND_URL) {
+    throw new Error('FRONTEND_URL must be configured in production.');
+  }
+  if (!process.env.SESSION_SECRET) {
+    throw new Error('SESSION_SECRET must be configured in production.');
+  }
+  if (!process.env.INITIAL_ADMIN_PASSWORD) {
+    throw new Error('INITIAL_ADMIN_PASSWORD must be configured in production.');
+  }
+}
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'sasuke_uchiha_chidori_secret_key_2026',
@@ -30,7 +71,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // Set to true if running behind HTTPS
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      partitioned: isProduction,
       maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
     }
   })
@@ -48,7 +91,11 @@ function requireAuth(req, res, next) {
 function createStorage(subfolder) {
   return multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, 'uploads', subfolder));
+      const destPath = path.join(uploadBaseDir, subfolder);
+      if (!fs.existsSync(destPath)) {
+        fs.mkdirSync(destPath, { recursive: true });
+      }
+      cb(null, destPath);
     },
     filename: (req, file, cb) => {
       const ext = path.extname(file.originalname).toLowerCase();
@@ -112,7 +159,7 @@ const uploadAvatars = multer({
 // Helper to safely delete file
 function deleteFileIfExists(subfolder, filename) {
   if (!filename) return;
-  const filePath = path.join(__dirname, 'uploads', subfolder, filename);
+  const filePath = path.join(uploadBaseDir, subfolder, filename);
   if (fs.existsSync(filePath)) {
     try {
       fs.unlinkSync(filePath);
@@ -985,6 +1032,8 @@ app.delete('/api/photos/:id', requireAuth, async (req, res) => {
 // -------------------------------------------------------------
 // PROTECTED FILE SERVING (PREVIEW & DOWNLOAD)
 // -------------------------------------------------------------
+app.get('/healthz', (req, res) => res.json({ status: 'ok' }));
+
 // Accessible only to authenticated user
 app.get('/api/files/:folder/:filename', requireAuth, (req, res) => {
   const { folder, filename } = req.params;
@@ -995,7 +1044,7 @@ app.get('/api/files/:folder/:filename', requireAuth, (req, res) => {
 
   // Prevent directory traversal
   const sanitizedFilename = path.basename(filename);
-  const filePath = path.join(__dirname, 'uploads', folder, sanitizedFilename);
+  const filePath = path.join(uploadBaseDir, folder, sanitizedFilename);
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).send('File tidak ditemukan.');
@@ -1034,7 +1083,7 @@ initDatabase()
       console.log(`=======================================================`);
       console.log(`⚡ AGUNG PERSONAL DASHBOARD — SASUKE UCHIHA EDITION ⚡`);
       console.log(`🚀 Server aktif di: http://localhost:${PORT}`);
-      console.log(`🔑 Login awal: username 'agung' | password 'kusuma'`);
+      console.log('🔑 Login awal: username "agung" | password sesuai konfigurasi awal.');
       console.log(`=======================================================`);
     });
   })

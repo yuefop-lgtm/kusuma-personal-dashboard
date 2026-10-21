@@ -1,8 +1,11 @@
 const path = require('path');
+const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
 
-const dbPath = path.join(__dirname, 'dashboard.sqlite');
+const dbDir = process.env.DATA_DIR || (process.env.VERCEL ? '/tmp' : __dirname);
+fs.mkdirSync(dbDir, { recursive: true });
+const dbPath = path.join(dbDir, 'dashboard.sqlite');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Failed to connect to SQLite database:', err.message);
@@ -169,11 +172,11 @@ async function initDatabase() {
     )
   `);
 
-  // Check if default user 'agung' exists
+  const initialPassword = process.env.INITIAL_ADMIN_PASSWORD || 'kusuma';
   const existingUser = await get('SELECT * FROM users WHERE username = ?', ['agung']);
   if (!existingUser) {
     const salt = bcrypt.genSaltSync(10);
-    const passwordHash = bcrypt.hashSync('kusuma', salt);
+    const passwordHash = bcrypt.hashSync(initialPassword, salt);
     const userRes = await run(
       `INSERT INTO users (username, password_hash, full_name, bio, ninja_rank)
        VALUES (?, ?, ?, ?, ?)`,
@@ -222,7 +225,7 @@ async function initDatabase() {
       [userRes.id, today]
     );
 
-    console.log('Default user "agung" seeded with password "kusuma" and sample data.');
+    console.log('Default user "agung" seeded with sample data.');
   }
 }
 

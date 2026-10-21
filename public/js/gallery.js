@@ -38,7 +38,7 @@ const GalleryView = {
 
   async load() {
     try {
-      const res = await fetch('/api/photos');
+      const res = await apiFetch('/api/photos');
       const data = await res.json();
       if (data.success) {
         this.photos = data.photos || [];
@@ -88,7 +88,7 @@ const GalleryView = {
 
     container.innerHTML = list
       .map((item) => {
-        const fileUrl = `/api/files/photos/${item.filename}`;
+        const fileUrl = apiUrl(`/api/files/photos/${item.filename}`);
         return `
         <div class="photo-card" onclick="GalleryView.openLightbox(${item.id})">
           <img src="${fileUrl}" alt="${item.title}" loading="lazy" />
@@ -107,8 +107,8 @@ const GalleryView = {
     const item = this.photos.find((p) => p.id === id);
     if (!item) return;
 
-    const fileUrl = `/api/files/photos/${item.filename}`;
-    const downloadUrl = `/api/files/photos/${item.filename}?download=1&name=${encodeURIComponent(item.original_name)}`;
+    const fileUrl = apiUrl(`/api/files/photos/${item.filename}`);
+    const downloadUrl = apiUrl(`/api/files/photos/${item.filename}?download=1&name=${encodeURIComponent(item.original_name)}`);
 
     document.getElementById('lightbox-img').src = fileUrl;
     document.getElementById('lightbox-title').textContent = item.title;
@@ -160,7 +160,7 @@ const GalleryView = {
         btn.textContent = 'Mengupload...';
       }
 
-      const res = await fetch('/api/photos', {
+      const res = await apiFetch('/api/photos', {
         method: 'POST',
         body: formData
       });
@@ -187,7 +187,7 @@ const GalleryView = {
   async deletePhoto(id) {
     if (!confirm('Hapus foto ini dari galeri?')) return;
     try {
-      const res = await fetch(`/api/photos/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/photos/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         window.ninjaSound && window.ninjaSound.playClick();

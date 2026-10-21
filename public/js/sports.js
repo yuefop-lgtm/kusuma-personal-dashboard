@@ -88,7 +88,7 @@ const SportsView = {
 
   async load() {
     try {
-      const res = await fetch('/api/sports');
+      const res = await apiFetch('/api/sports');
       const data = await res.json();
       if (data.success) {
         this.schedules = data.sports || [];
@@ -144,8 +144,8 @@ const SportsView = {
       .map((item) => {
         let attachmentMarkup = '';
         if (item.attachment_filename) {
-          const fileUrl = `/api/files/sports/${item.attachment_filename}`;
-          const downloadUrl = `/api/files/sports/${item.attachment_filename}?download=1&name=${encodeURIComponent(item.attachment_original_name || 'lampiran')}`;
+          const fileUrl = apiUrl(`/api/files/sports/${item.attachment_filename}`);
+          const downloadUrl = apiUrl(`/api/files/sports/${item.attachment_filename}?download=1&name=${encodeURIComponent(item.attachment_original_name || 'lampiran')}`);
           attachmentMarkup = `
             <div style="margin-top: 0.8rem; padding: 0.6rem 0.85rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; border: 1px solid var(--border-subtle);">
               <span style="font-size: 0.76rem; color: var(--accent-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -324,7 +324,7 @@ const SportsView = {
       const url = id ? `/api/sports/${id}` : '/api/sports';
       const method = id ? 'PUT' : 'POST';
 
-      const res = await fetch(url, {
+      const res = await apiFetch(url, {
         method,
         body: formData
       });
@@ -345,7 +345,7 @@ const SportsView = {
   async deleteSport(id) {
     if (!confirm('Hapus jadwal olahraga ini?')) return;
     try {
-      const res = await fetch(`/api/sports/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/sports/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         window.ninjaSound && window.ninjaSound.playClick();

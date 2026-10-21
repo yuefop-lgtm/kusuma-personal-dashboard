@@ -64,7 +64,7 @@ const DashboardView = {
 
   async load() {
     try {
-      const res = await fetch('/api/dashboard/overview');
+      const res = await apiFetch('/api/dashboard/overview');
       const data = await res.json();
       if (!data.success) return;
 

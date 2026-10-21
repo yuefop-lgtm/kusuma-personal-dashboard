@@ -38,7 +38,7 @@ const DocumentsView = {
 
   async load() {
     try {
-      const res = await fetch('/api/documents');
+      const res = await apiFetch('/api/documents');
       const data = await res.json();
       if (data.success) {
         this.documents = data.documents || [];
@@ -90,8 +90,8 @@ const DocumentsView = {
       .map((doc) => {
         const ext = doc.original_name ? doc.original_name.split('.').pop().toUpperCase() : 'DOC';
         const sizeMb = doc.file_size ? (doc.file_size / (1024 * 1024)).toFixed(2) + ' MB' : '-';
-        const fileUrl = `/api/files/documents/${doc.filename}`;
-        const downloadUrl = `/api/files/documents/${doc.filename}?download=1&name=${encodeURIComponent(doc.original_name)}`;
+        const fileUrl = apiUrl(`/api/files/documents/${doc.filename}`);
+        const downloadUrl = apiUrl(`/api/files/documents/${doc.filename}?download=1&name=${encodeURIComponent(doc.original_name)}`);
 
         return `
         <div class="doc-item-card">
@@ -162,7 +162,7 @@ const DocumentsView = {
         btn.textContent = 'Mengupload...';
       }
 
-      const res = await fetch('/api/documents', {
+      const res = await apiFetch('/api/documents', {
         method: 'POST',
         body: formData
       });
@@ -189,7 +189,7 @@ const DocumentsView = {
   async deleteDocument(id) {
     if (!confirm('Hapus dokumen ini secara permanen?')) return;
     try {
-      const res = await fetch(`/api/documents/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/documents/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         window.ninjaSound && window.ninjaSound.playClick();

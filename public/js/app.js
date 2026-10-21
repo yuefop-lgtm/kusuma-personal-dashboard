@@ -24,7 +24,7 @@ const App = {
   // ------------------------------------------------------
   async checkAuth() {
     try {
-      const res = await fetch('/api/auth/me');
+      const res = await apiFetch('/api/auth/me');
       const data = await res.json();
       if (data.success && data.user) {
         this.user = data.user;
@@ -67,7 +67,7 @@ const App = {
 
   async login(username, password) {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -101,7 +101,7 @@ const App = {
   async logout() {
     if (!confirm('Apakah kamu yakin ingin keluar dari Sasuke Shinobi Dashboard?')) return;
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await apiFetch('/api/auth/logout', { method: 'POST' });
       this.user = null;
       window.ninjaSound && window.ninjaSound.playClick();
       this.showToast('info', 'Logged Out', 'Kamu telah keluar dari sistem.');
@@ -133,7 +133,7 @@ const App = {
 
     const avatarElems = document.querySelectorAll('.user-avatar-img');
     const avatarUrl = user.avatar
-      ? `/api/files/avatars/${user.avatar}`
+      ? apiUrl(`/api/files/avatars/${user.avatar}`)
       : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%231a1528" stroke="%23a855f7" stroke-width="4"/><path d="M50 25a18 18 0 1 0 0 36 18 18 0 0 0 0-36zm0 44c-20 0-36 10-36 20v4h72v-4c0-10-16-20-36-20z" fill="%23c084fc"/></svg>';
 
     avatarElems.forEach((img) => (img.src = avatarUrl));

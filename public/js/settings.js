@@ -13,7 +13,7 @@ const SettingsView = {
 
   async load() {
     try {
-      const res = await fetch('/api/settings');
+      const res = await apiFetch('/api/settings');
       const data = await res.json();
       if (data.success && data.settings) {
         this.settings = data.settings;
@@ -128,7 +128,7 @@ const SettingsView = {
     };
 
     try {
-      const res = await fetch('/api/settings', {
+      const res = await apiFetch('/api/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -155,7 +155,7 @@ const SettingsView = {
   async resetSettings() {
     if (!confirm('Kembalikan semua pengaturan visual dan audio ke bawaan asli Sasuke Uchiha?')) return;
     try {
-      const res = await fetch('/api/settings/reset', { method: 'POST' });
+      const res = await apiFetch('/api/settings/reset', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         window.ninjaSound && window.ninjaSound.playClick();
@@ -182,7 +182,7 @@ const SettingsView = {
         const ninja_rank = document.getElementById('profile-edit-rank').value;
 
         try {
-          const res = await fetch('/api/auth/profile', {
+          const res = await apiFetch('/api/auth/profile', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ full_name, bio, ninja_rank })
@@ -211,7 +211,7 @@ const SettingsView = {
         formData.append('avatar', e.target.files[0]);
 
         try {
-          const res = await fetch('/api/auth/avatar', {
+          const res = await apiFetch('/api/auth/avatar', {
             method: 'POST',
             body: formData
           });
@@ -248,7 +248,7 @@ const SettingsView = {
         }
 
         try {
-          const res = await fetch('/api/auth/password', {
+          const res = await apiFetch('/api/auth/password', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ current_password, new_password, confirm_password })
